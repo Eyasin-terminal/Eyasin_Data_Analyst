@@ -1,194 +1,199 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Linkedin, 
-  Mail, 
-  Globe, 
-  FileText, 
-  ArrowRight
-} from 'lucide-react';
-
-/**
- * SOCIAL LINK PORTAL
- * A high-fidelity, responsive personal landing page.
- * * Features:
- * - Responsive layout with overlapping avatar
- * - Staggered fade-in animations for list items
- * - Semantic HSL-based color system
- * - Hover effects and clear interaction states
- */
-
-const App = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
-  // Design Tokens - Mapped to your guide's HSL variables
-  const theme = {
-    background: "bg-[#f9f7f5]", // 40 30% 97%
-    foreground: "text-[#2a241f]", // 30 10% 15%
-    primary: "bg-[#ab6b2c]",    // 30 60% 42%
-    primaryText: "text-[#ab6b2c]",
-    secondary: "bg-[#edeae5]",  // 35 25% 91%
-    muted: "text-[#948b82]",    // 30 8% 55%
-  };
-
-  const userData = {
-    name: "Alex Sterling",
-    role: "Product Designer & Developer",
-    bio: "Building digital experiences at the intersection of design and code. Coffee enthusiast and open-source contributor.",
-    bannerUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1200",
-    profileUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
-  };
-
-  // Updated socialLinks to follow the requested order:
-  // LinkedIn, Email, Portfolio, Curriculum Vitae
-  const socialLinks = [
-    { 
-      platform: "LinkedIn", 
-      icon: <Linkedin size={20} />, 
-      username: "alex-sterling", 
-      url: "https://linkedin.com", 
-      message: "Professional network & updates",
-      color: "hover:border-blue-500"
-    },
-    { 
-      platform: "Email", 
-      icon: <Mail size={20} />, 
-      username: "hello@alexsterling.com", 
-      url: "mailto:hello@alexsterling.com", 
-      message: "Direct inquiries",
-      color: "hover:border-red-400"
-    },
-    { 
-      platform: "Portfolio", 
-      icon: <Globe size={20} />, 
-      username: "alexsterling.com", 
-      url: "https://google.com", 
-      message: "View my case studies",
-      color: "hover:border-orange-500"
-    },
-    { 
-      platform: "Curriculum Vitae", 
-      icon: <FileText size={20} />, 
-      username: "Resume_2024.pdf", 
-      url: "#", 
-      message: "Experience & skills summary",
-      color: "hover:border-emerald-500"
-    }
-  ];
-
-  return (
-    <div className={`min-h-screen ${theme.background} ${theme.foreground} font-sans selection:bg-orange-200 selection:text-orange-900`}>
-      {/* 1. Banner Section */}
-      <div className="relative h-64 md:h-80 w-full overflow-hidden">
-        <img 
-          src={userData.bannerUrl} 
-          alt="Banner" 
-          className="w-full h-full object-cover grayscale-[20%] brightness-90"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-      </div>
-
-      {/* 2. Profile Header Section */}
-      <div className="max-w-2xl mx-auto px-6 relative">
-        <div className="flex flex-col items-center -mt-16 md:-mt-20 mb-8">
-          <div className="relative">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-4 border-[#f9f7f5] shadow-xl transform transition-transform hover:scale-105 duration-300">
-              <img 
-                src={userData.profileUrl} 
-                alt={userData.name} 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-2 -right-2 bg-green-500 w-6 h-6 rounded-full border-4 border-[#f9f7f5]" title="Available for work" />
-          </div>
-
-          <div className={`text-center mt-6 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <h1 className="text-3xl md:text-4xl font-serif font-bold tracking-tight">
-              {userData.name}
-            </h1>
-            <p className={`mt-2 font-medium ${theme.primaryText} tracking-wide uppercase text-sm`}>
-              {userData.role}
-            </p>
-            <p className={`mt-4 ${theme.muted} max-w-md leading-relaxed text-sm md:text-base`}>
-              {userData.bio}
-            </p>
-          </div>
-        </div>
-
-        {/* 3. Social Links List */}
-        <div className="space-y-3 pb-16">
-          {socialLinks.map((link, i) => (
-            <a
-              key={link.platform}
-              href={link.url}
-              target={link.url.startsWith('mailto') ? '_self' : '_blank'}
-              rel="noopener noreferrer"
-              className={`
-                group block w-full p-4 rounded-xl border border-black/5 ${theme.secondary} 
-                hover:bg-white hover:shadow-md transition-all duration-300
-                ${link.color} border-l-4 border-l-transparent hover:border-l-current
-                ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}
-              `}
-              style={{ 
-                transitionDelay: `${(i + 1) * 100}ms` 
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className={`p-2 rounded-lg bg-white shadow-sm text-gray-700 group-hover:scale-110 transition-transform duration-300`}>
-                    {link.icon}
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center space-x-2">
-                      <span className="font-bold text-sm tracking-tight">{link.platform}</span>
-                      <span className={`text-xs ${theme.muted} font-mono`}>/{link.username}</span>
-                    </div>
-                    <span className={`text-xs ${theme.muted} mt-0.5 group-hover:text-gray-900 transition-colors`}>
-                      {link.message}
-                    </span>
-                  </div>
-                </div>
-                <div className={`${theme.muted} group-hover:translate-x-1 group-hover:text-gray-900 transition-all`}>
-                  <ArrowRight size={18} />
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-
-        {/* 4. Footer */}
-        <footer className={`py-12 text-center border-t border-black/5 ${theme.muted} text-xs tracking-widest uppercase`}>
-          <div className="flex justify-center items-center space-x-2 mb-2">
-            <span className="w-8 h-px bg-black/10"></span>
-            <span>Connect</span>
-            <span className="w-8 h-px bg-black/10"></span>
-          </div>
-          <p>© {new Date().getFullYear()} {userData.name}. Built with Precision.</p>
-        </footer>
-      </div>
-
-      {/* Global styles for smooth fonts and custom animations */}
-      <style>{`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Link Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX transformation in browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&display=swap');
         
         :root {
-          font-family: 'DM Sans', sans-serif;
+            font-family: 'DM Sans', sans-serif;
         }
-
         h1, h2, h3 {
-          font-family: 'DM Serif Display', serif;
+            font-family: 'DM Serif Display', serif;
         }
-
         body {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f9f7f5;
         }
-      `}</style>
-    </div>
-  );
-};
+        /* Custom animation for staggered entry */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-export default App;
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Icon component that interfaces with the Lucide CDN
+        const Icon = ({ name, size = 20, className = "" }) => {
+            useEffect(() => {
+                // This tells Lucide to scan the DOM and replace <i> tags with SVGs
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [name]);
+
+            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
+        };
+
+        const App = () => {
+            const [isLoaded, setIsLoaded] = useState(false);
+
+            useEffect(() => {
+                setIsLoaded(true);
+            }, []);
+
+            const theme = {
+                background: "bg-[#f9f7f5]",
+                foreground: "text-[#2a241f]",
+                primaryText: "text-[#ab6b2c]",
+                secondary: "bg-[#edeae5]",
+                muted: "text-[#948b82]",
+            };
+
+            const userData = {
+                name: "Alex Sterling",
+                role: "Product Designer & Developer",
+                bio: "Building digital experiences at the intersection of design and code. Coffee enthusiast and open-source contributor.",
+                bannerUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1200",
+                profileUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
+            };
+
+            const socialLinks = [
+                { 
+                    platform: "LinkedIn", 
+                    icon: "linkedin", 
+                    username: "alex-sterling", 
+                    url: "https://linkedin.com", 
+                    message: "Professional network & updates",
+                    color: "hover:border-blue-500"
+                },
+                { 
+                    platform: "Email", 
+                    icon: "mail", 
+                    username: "hello@alexsterling.com", 
+                    url: "mailto:hello@alexsterling.com", 
+                    message: "Direct inquiries",
+                    color: "hover:border-red-400"
+                },
+                { 
+                    platform: "Portfolio", 
+                    icon: "globe", 
+                    username: "alexsterling.com", 
+                    url: "https://google.com", 
+                    message: "View my case studies",
+                    color: "hover:border-orange-500"
+                },
+                { 
+                    platform: "Curriculum Vitae", 
+                    icon: "file-text", 
+                    username: "Resume_2024.pdf", 
+                    url: "#", 
+                    message: "Experience & skills summary",
+                    color: "hover:border-emerald-500"
+                }
+            ];
+
+            return (
+                <div className={`min-h-screen ${theme.background} ${theme.foreground} selection:bg-orange-200 selection:text-orange-900`}>
+                    {/* 1. Banner */}
+                    <div className="relative h-64 md:h-80 w-full overflow-hidden">
+                        <img src={userData.bannerUrl} alt="Banner" className="w-full h-full object-cover grayscale-[20%] brightness-90" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                    </div>
+
+                    <div className="max-w-2xl mx-auto px-6 relative">
+                        {/* 2. Profile Header */}
+                        <div className="flex flex-col items-center -mt-16 md:-mt-20 mb-8">
+                            <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-4 border-[#f9f7f5] shadow-xl transform transition-transform hover:scale-105 duration-300 bg-white">
+                                <img src={userData.profileUrl} alt={userData.name} className="w-full h-full object-cover" />
+                            </div>
+
+                            <div className={`text-center mt-6 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{userData.name}</h1>
+                                <p className={`mt-2 font-medium ${theme.primaryText} tracking-wide uppercase text-sm`}>{userData.role}</p>
+                                <p className={`mt-4 ${theme.muted} max-w-md leading-relaxed text-sm md:text-base`}>{userData.bio}</p>
+                            </div>
+                        </div>
+
+                        {/* 3. Links List */}
+                        <div className="space-y-3 pb-16">
+                            {socialLinks.map((link, i) => (
+                                <a
+                                    key={link.platform}
+                                    href={link.url}
+                                    target={link.url.startsWith('mailto') ? '_self' : '_blank'}
+                                    className={`
+                                        fade-in-up group block w-full p-4 rounded-xl border border-black/5 ${theme.secondary} 
+                                        hover:bg-white hover:shadow-md transition-all duration-300
+                                        ${link.color} border-l-4 border-l-transparent hover:border-l-current
+                                    `}
+                                    style={{ animationDelay: `${(i + 1) * 150}ms` }}
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="p-2.5 rounded-lg bg-white shadow-sm text-gray-700 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                                                <Icon name={link.icon} size={20} />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <div className="flex items-center space-x-2">
+                                                    <span className="font-bold text-sm tracking-tight">{link.platform}</span>
+                                                    <span className={`text-xs ${theme.muted} font-mono`}>/{link.username}</span>
+                                                </div>
+                                                <span className={`text-xs ${theme.muted} mt-0.5 group-hover:text-gray-900 transition-colors`}>{link.message}</span>
+                                            </div>
+                                        </div>
+                                        <div className={`${theme.muted} group-hover:translate-x-1 group-hover:text-gray-900 transition-all`}>
+                                            <Icon name="arrow-right" size={18} />
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* 4. Footer */}
+                        <footer className={`py-12 text-center border-t border-black/5 ${theme.muted} text-xs tracking-widest uppercase`}>
+                            <div className="flex justify-center items-center space-x-2 mb-2">
+                                <span className="w-8 h-px bg-black/10"></span>
+                                <span>Connect</span>
+                                <span className="w-8 h-px bg-black/10"></span>
+                            </div>
+                            <p>© {new Date().getFullYear()} {userData.name}. Built with Precision.</p>
+                        </footer>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
